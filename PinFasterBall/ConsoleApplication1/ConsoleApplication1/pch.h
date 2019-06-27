@@ -3,6 +3,7 @@
 #include <vector>
 #include <stack>
 #include <map>
+#include <algorithm>
 
 //SFML
 #include <SFML/Graphics.hpp>

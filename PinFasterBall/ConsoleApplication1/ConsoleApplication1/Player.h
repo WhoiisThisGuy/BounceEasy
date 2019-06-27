@@ -12,7 +12,7 @@ class Player
 		void render(sf::RenderTarget* target);
 
 		const sf::RectangleShape& getShape() { return this->shape; };
-		sf::FloatRect getRect() { return this->floatrect; };
+		
 
 	private:
 		sf::RectangleShape shape;

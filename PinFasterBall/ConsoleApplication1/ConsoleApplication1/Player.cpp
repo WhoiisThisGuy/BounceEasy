@@ -4,7 +4,7 @@
 Player::Player() {
 
 	this->shape.setSize(sf::Vector2f(111.0f, 11.0f));
-	this->movementSpeed = 200.0f;
+	this->movementSpeed = 600.0f;
 	//this->shape.setOrigin(sf::Vector2f(111.0f/2, 11.0f/2));
 	this->shape.setPosition(380.0f, 550.0f);
 	this->shape.setFillColor(sf::Color::Magenta);

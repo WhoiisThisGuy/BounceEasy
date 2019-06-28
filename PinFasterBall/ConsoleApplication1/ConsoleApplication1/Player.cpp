@@ -4,17 +4,14 @@
 Player::Player() {
 
 	this->shape.setSize(sf::Vector2f(111.0f, 11.0f));
-	this->movementSpeed = 600.0f;
+	this->movementSpeed = 400.0f;
 	//this->shape.setOrigin(sf::Vector2f(111.0f/2, 11.0f/2));
 	this->shape.setPosition(380.0f, 550.0f);
 	this->shape.setFillColor(sf::Color::Magenta);
 	
 	//Itt beállítok egy float rectanglet (floatrect) azért mert ezt adom át hogy Intersectre nézze
 
-	this->floatrect.height = this->shape.getSize().y;
-	this->floatrect.width = this->shape.getSize().x;
-	this->floatrect.left = this->shape.getGlobalBounds().left;
-	this->floatrect.top = this->shape.getGlobalBounds().top;
+	
 }
 
 Player::~Player()
@@ -50,10 +47,7 @@ void Player::update(const float& dt)
 			this->move(dt, 1.f, 1.f);
 
 	}
-	this->floatrect.height = this->shape.getSize().y;
-	this->floatrect.width = this->shape.getSize().x;
-	this->floatrect.left = this->shape.getGlobalBounds().left;
-	this->floatrect.top = this->shape.getGlobalBounds().top;
+
 }
 
 void Player::render(sf::RenderTarget* target)

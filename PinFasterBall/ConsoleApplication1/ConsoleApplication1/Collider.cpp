@@ -2,7 +2,7 @@
 #include "Collider.h"
 
 bool Collider::checkCollision(Player& player, Ball& ball, const std::vector<sf::RectangleShape>& borders)
-{	//Valami rövidebb megoldást kitalálni, talán külön függvényekbe ellenõrizni az entity-ket?!
+{	//Valami rövidebb megoldást kitalálni a túl hosszú kódra, talán külön függvényekbe ellenõrizni az entity-ket?!
 	//Kör - téglalap távolság logika
 	//Téglalaphoz mely pontja van legközelebb a körhöz
 	//és az benne van e a körben (kör középpont -> sugár)
@@ -30,8 +30,9 @@ bool Collider::checkCollision(Player& player, Ball& ball, const std::vector<sf::
 	DeltaY = CircleY - NearestY;
 
 	if (collide(DeltaX, DeltaY, CircleRadius)) {
+
+		ball.getShape().setFillColor(sf::Color::Red);//kiszedni csak azért van itt hogy lássam collision van
 		
-		ball.getShape().setFillColor(sf::Color::Red); //kiszedni csak azért van itt hogy lássam collision van
 		ball.ChangeDirection(NearestX, NearestY, CircleX, CircleY);
 		return true;
 	}
@@ -53,13 +54,12 @@ bool Collider::checkCollision(Player& player, Ball& ball, const std::vector<sf::
 		DeltaY = CircleY - NearestY;
 
 		if (collide(DeltaX, DeltaY, CircleRadius)) {
-
+			
 			ball.getShape().setFillColor(sf::Color::Red); //kiszedni csak azért van itt hogy lássam collision van
 			ball.ChangeDirection(NearestX,NearestY,CircleX,CircleY);
 			return true;
 		}
 	}
-
 
 	ball.getShape().setFillColor(sf::Color::Cyan); //Csak a villogás kedvéért ki lehet szedni
 

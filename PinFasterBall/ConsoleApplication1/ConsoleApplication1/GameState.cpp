@@ -29,15 +29,16 @@ GameState::GameState(sf::RenderWindow* window) : State(window)
 
 void GameState::update(const float& dt)
 {
-	this->updateKeybinds(dt);
+	
 	this->ball.update(dt);
 	this->player.update(dt);
-	this->collider.checkCollision(this->player,this->ball,this->borders);
+	this->updateKeybinds(dt);
+	this->collider.checkCollision(this->player, this->ball, this->borders);
 }
 
-void GameState::render()// sf::RenderWindow* target
+void GameState::render(sf::RenderWindow* target)// sf::RenderWindow* target
 {
-
+	
 	this->player.render(this->window);
 	this->ball.render(this->window);
 	this->window->draw(this->UpperRect);
@@ -53,9 +54,11 @@ void GameState::updateKeybinds(const float& dt)
 
 }
 
+//std cout-al befagyott valamilyen oknál fogva az endstate---> kérõdjel miért
+
 void GameState::endState()
 {
 
-	std::cout << "Ending gamestate4"<<"\n";
+	//std::cout << "Ending gamestate4"<<"\n";
 
 }

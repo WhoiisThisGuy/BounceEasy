@@ -12,7 +12,7 @@ public:
 	GameState(sf::RenderWindow* window);
 	
 	void update(const float& dt);
-	void render();//sf::RenderWindow* target = nullptr
+	void render(sf::RenderWindow* target = nullptr);//sf::RenderWindow* target = nullptr
 
 	void endState();
 

@@ -23,7 +23,7 @@ public:
 
 	virtual void updateKeybinds(const float& dt) = 0;
 	virtual void update(const float& dt) = 0;
-	virtual void render() = 0;//sf::RenderWindow* window = nullptr
+	virtual void render(sf::RenderWindow* window = nullptr) = 0;//
 
 	const bool& getQuit() const;
 

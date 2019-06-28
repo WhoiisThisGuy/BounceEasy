@@ -16,7 +16,7 @@ void Game::initWindow()
 	//sf::VideoMode::getFullscreenModes().at(5)
 
 	this->window = new sf::RenderWindow(sf::VideoMode(800,600),"PinFasterBall");
-	
+	window->setFramerateLimit(200);
 }
 
 void Game::initStates()
@@ -66,10 +66,11 @@ void Game::update()
 		this->states.top()->update(this->dt);
 		if (this->states.top()->getQuit()) {
 			
-			this->states.top()->endState();
+			//this->states.top()->endState(); //ez az endState
 			//Ezt azért itt delete és nem a destruktorban mert ha még le akarok játszani valami end animationt akkor itt meglehet tenni.
 			delete this->states.top();
 			this->states.pop();
+		
 		}
 	}
 	else

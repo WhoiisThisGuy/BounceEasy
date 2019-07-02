@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\PinFasterBall",
-    "\\PinFasterBall\\ConsoleApplication1"
+    "\\PinFasterBall\\ConsoleApplication1",
+    "\\PinFasterBall\\ConsoleApplication1\\ConsoleApplication1"
   ],
-  "SelectedNode": "\\PinFasterBall\\ConsoleApplication1\\PinFasterBall.sln",
+  "SelectedNode": "\\PinFasterBall\\ConsoleApplication1\\ConsoleApplication1\\Ball.cpp",
   "PreviewInSolutionExplorer": false
 }

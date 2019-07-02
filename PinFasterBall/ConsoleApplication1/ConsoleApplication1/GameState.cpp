@@ -33,7 +33,7 @@ void GameState::update(const float& dt)
 	this->ball.update(dt);
 	this->player.update(dt);
 	this->updateKeybinds(dt);
-	this->collider.checkCollision(this->player, this->ball, this->borders);
+	this->collider.checkCollision(this->player, this->ball, this->borders,dt);
 }
 
 void GameState::render(sf::RenderWindow* target)// sf::RenderWindow* target
@@ -59,6 +59,7 @@ void GameState::updateKeybinds(const float& dt)
 void GameState::endState()
 {
 
+	//valami esetleg kiírni még megcsinálni a befejezés elõtt
 	//std::cout << "Ending gamestate4"<<"\n";
 
 }

@@ -3,18 +3,15 @@
 
 Ball::Ball() {
 
-	this->movementSpeed = 50.0f;
+	this->movementSpeed = 500.0f;
 	this->ballShape.setRadius(20.0f);
-	this->movementSpeed = 600.0f;
 	this->ballShape.setOrigin(sf::Vector2f(20.0f, 20.0f));
-	this->ballShape.setPosition(400.0f, 100.0f);
+	this->ballShape.setPosition(400.0f, 200.0f);
 	this->ballShape.setFillColor(sf::Color::Cyan);
-
-	this->direction.x = 0.8f;
-	this->direction.y = 0.3f;
+	this->direction.x = -2.0f;
+	this->direction.y = 1.0f;
 	
 }
-
 
 void Ball::update(const float& dt)
 {
@@ -36,92 +33,87 @@ void Ball::render(sf::RenderTarget* target)
 	target->draw(this->ballShape);
 }
 
-void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float BallY)
+void Ball::ChangeDriectionV2(float NearestX, float NearestY, float BallX, float BallY, float dt) {
+
+	//if (NearestX == BallX) {
+
+	//	this->direction.y = this->direction.y * -1;
+	//	NearestY <= BallY ?
+	//	this->direction.x > 0 ? this->move(dt, 5, 5) : this->move(dt, -5, 5);
+	//	
+	//}
+	//else if (NearestY == BallY)
+	//{
+	//	this->direction.x = this->direction.x * -1;
+
+	//}
+}
+
+void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float BallY,float dt)
 {
 
-	//ezek mind a sarkokra vonatkoznak               
-	
-	//bal alsó sarok
-	if (BallX < NearestX && BallY > NearestY) {
+	//Fent ütközött rövidebb
 
-		this->direction.x = this->direction.x * -1;
-		this->direction.y = this->direction.y * -1;
-	
-	}//bal felsõ sarok
-	else if (BallX < NearestX && BallY < NearestY) {
-
-		this->direction.x = this->direction.x * -1;
-		this->direction.y = this->direction.y * -1;
-
-	}
-	//jobb felsõ sarok
-	else if (BallX > NearestX && BallY < NearestY) {
-
-		this->direction.x = this->direction.x * -1;
-		this->direction.y = this->direction.y * -1;
-
-	}
-
-	//jobb alsó sarok
-	else if (BallX > NearestX && BallY > NearestY) {
-
-		this->direction.x = this->direction.x * -1;
-		this->direction.y = this->direction.y * -1;
-	}
+	//Ha az X-ek egyenlõk akkor az ütközés vízszintesen lévõ oldallal történt
+	if (NearestX == BallX) {
 
 		//Fent ütközött ___________
-			//              O
-	if (NearestX == BallX && NearestY < BallY) {
+		//                   O
+
+		if (NearestY <= BallY)
+		{
+			this->direction.x > 0 ? this->move(dt, 5, 5) : this->move(dt, -5, 5);
+
+			this->direction.y *= -1;
+		}
+
+		//Lent ütközött      
+        //              _____O_____     
+		else if (NearestY >= BallY) {
 		
-		if (this->direction.x > 0)
-			this->ballShape.move(8, 8);
-		else
-			this->ballShape.move(-8, 8);
-		this->direction.y = this->direction.y*-1;
-	
+			this->direction.x > 0 ? this->move(dt, 5, -5) : this->move(dt, -5, -5);
+
+			this->direction.y *= -1;
+		}
 	}
+	//ha az Y-ok egyenlõek akkor Függõleges oldalnak ütközött
 
-	//Lent ütközött      
-	//               _____O_____     
+	else if ( NearestY == BallY) {
 
-	else if (NearestX == BallX && NearestY > BallY) {
+		//Bal oldalán ütközött |
+		//                     |O
+		//                     |
 
-		if(this->direction.x>0)
-			this->ballShape.move(8,-8);
-		else
-			this->ballShape.move(-8, -8);
-		this->direction.y = this->direction.y * -1;
+		if (NearestX <= BallX) {
 
-	}
+			this->direction.y > 0 ? this->move(dt, 5, 5) : this->move(dt, 5, -5); //
 
-	//Bal oldalán ütközött |
-	//                     |O
-	//                     |
-
-	else if (NearestX < BallX && NearestY == BallY) {
-
-		if (this->direction.y > 0)
-			this->ballShape.move(8, 8);
-		else
-			this->ballShape.move(8, -8);
-
-		this->direction.x = this->direction.x*-1;
+			this->direction.x *= -1;
+		}
+		//Jobb oldalán ütközött   |
+		//                       O| 
+		//                        |
+		else if (NearestX >= BallX) {
 		
+			this->direction.y > 0 ? this->move(dt, -5, 5) : this->move(dt, -5, -5);
+
+			this->direction.x *= -1;
+
+		}
 
 	}
+	//ez a rész arra vonatkozik ha sarkot üti meg , ekkor a BallX,BallY mindekettõ vagy nagyobb vagy kisebb de semmiképp sem egyenlõ
 
-	//Jobb oldalán ütközött   |
-	//                       O| 
-	//                        |
+	//     O __   __ O
+	//      |       |        |_     _|
+	//                      O         O
 
-	else if (NearestX > BallX && NearestY == BallY) {
+	else if (BallX != NearestX && BallY != NearestY) {
 
-		if (this->direction.y > 0)
-			this->ballShape.move(-8, 8);
-		else
-			this->ballShape.move(-8, -8);
-		this->direction.x = this->direction.x * -1;
-		
+		this->move(dt, this->getDirection().x * -1, this->getDirection().y * -1);
+
+		this->direction.x *= -1;
+		this->direction.y *= -1;
 
 	}
 

@@ -3,8 +3,8 @@
 
 Player::Player() {
 
-	this->shape.setSize(sf::Vector2f(111.0f, 11.0f));
-	this->movementSpeed = 400.0f;
+	this->shape.setSize(sf::Vector2f(130.0f, 11.0f));
+	this->movementSpeed = 550.0f;
 	//this->shape.setOrigin(sf::Vector2f(111.0f/2, 11.0f/2));
 	this->shape.setPosition(380.0f, 550.0f);
 	this->shape.setFillColor(sf::Color::Magenta);
@@ -44,7 +44,7 @@ void Player::update(const float& dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 
 		
-			this->move(dt, 1.f, 1.f);
+			this->move(dt, 0.f, 1.f);
 
 	}
 

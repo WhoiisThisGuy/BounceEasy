@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Ball.h"
 #include "Collider.h"
+#include "Wall.h"
 
 class GameState:public State
 {
@@ -28,6 +29,7 @@ private:
 
 	std::vector<sf::RectangleShape> borders;
 
+	Wall wall;
 	Player player;
 	Ball ball;
 	Collider collider;

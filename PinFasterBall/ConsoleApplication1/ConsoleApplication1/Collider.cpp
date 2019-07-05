@@ -31,13 +31,9 @@ void Collider::checkCollision(Player& player, Ball& ball, const std::vector<sf::
 
 	if (collide(DeltaX, DeltaY, CircleRadius)) {
 
-		ball.getShape().setFillColor(sf::Color::Red);//kiszedni csak azért van itt hogy lássam collision van
-		
-		ball.ChangeDirection(NearestX, NearestY, CircleX, CircleY,dt);
+		ball.ChangeDirectionByPlayer(NearestX, NearestY, CircleX, CircleY,dt,player);//
 
-		//return true;
 	}
-	
 
 	for (int i = 0; i < borders.size(); i++)
 	{
@@ -56,12 +52,9 @@ void Collider::checkCollision(Player& player, Ball& ball, const std::vector<sf::
 
 		if (collide(DeltaX, DeltaY, CircleRadius)) {
 			
-			ball.getShape().setFillColor(sf::Color::Red); //kiszedni csak azért van itt hogy lássam collision van
 			ball.ChangeDirection(NearestX,NearestY,CircleX,CircleY,dt);
 		}
 	}
-
-	ball.getShape().setFillColor(sf::Color::Cyan); //kiszedni csak azért van itt hogy lássam nincs collision
 
 }
 

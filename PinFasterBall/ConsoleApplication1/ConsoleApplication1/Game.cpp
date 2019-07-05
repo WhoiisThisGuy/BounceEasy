@@ -12,9 +12,6 @@ Game::Game() {
 //Initializer
 void Game::initWindow()
 {
-	
-	//sf::VideoMode::getFullscreenModes().at(5)
-
 	this->window = new sf::RenderWindow(sf::VideoMode(800,600),"PinFasterBall");
 	window->setFramerateLimit(200);
 }
@@ -24,6 +21,10 @@ void Game::initStates()
 	this->states.push(new GameState(this->window));
 	
 }
+
+//A game destruktora, töröljük a window-ot mivel new-al allokáltuk a heap-en, valamint az összes statet amíg nem empty
+//a delete-el még megmaradna a stacken az iterátor de mivel már töröltük az ott lévõ adatot pop-olni is kell, hogy ne
+//hogy ne maradjon üres rész.
 
 Game::~Game() {
 
@@ -43,13 +44,13 @@ void Game::endApplication()
 
 void Game::updateDt()
 {
-	//Update: mennyi idõ alatt frissít egy képkockát így más teljesitményû pc-n is ugyanannyi idõvel mozog a unit pl.
+	//Update: mennyi idõ alatt frissít egy képkockát így más teljesitményû pc-n is ugyanannyi idõvel mozog a unit
 	this->dt = this->deltaClock.restart().asSeconds();
 
 }
 
 void Game::updateSFMLEvents()
-{
+{   //minden eventet figyel, ha az event a closed volt akkor a bezárás.
 	while (this->window->pollEvent(this->sfEvent))
 	{
 
@@ -66,7 +67,7 @@ void Game::update()
 		this->states.top()->update(this->dt);
 		if (this->states.top()->getQuit()) {
 			
-			//this->states.top()->endState(); //ez az endState
+			//this->states.top()->endState(); //ez az endState, esetleg ha valamit végre akarok még hajtani
 			//Ezt azért itt delete és nem a destruktorban mert ha még le akarok játszani valami end animationt akkor itt meglehet tenni.
 			delete this->states.top();
 			this->states.pop();
@@ -80,6 +81,12 @@ void Game::update()
 
 	}
 }
+
+//Clear
+
+//törlünk mindent ami aktuálisan a képernyõn van
+//a stack (ami a pályákat tárolja, menüket) legtetején lévõ state kirajzolását hivjuk meg.
+//végül a megjelenítés
 
 void Game::render()
 {
@@ -95,6 +102,12 @@ void Game::render()
 
 }
 
+//updateDt: a deltatime clockot indítja újra. A deltatime a while minden újabb ciklusába frissül
+//			így megkapjuk mennyi idõ telt el két frissítés között, deltatimeal szorozva mozgatjuk majd a karatereket alakzatokat
+//          ez azért jobb mint a frame rate mert gyengébb gépen amelyik kevesebb framet tud megjeleníteni lasabb lenne a játék
+//          de a deltatime nem függ a frame rate-tõl
+//update:   ez a függvény végzi a változtatásokat, mozgatás, eventek, esetleg animációknál következõ képkocka betöltése.
+//render:   az updatelt állapot kirajzolása
 void Game::run()
 {
 

@@ -1,20 +1,47 @@
 #include "pch.h"
 #include "GameState.h"
 
-GameState::GameState(sf::RenderWindow* window) : State(window)
+GameState::GameState(sf::RenderWindow* window)
+	: State(window),
+	wall(sf::Color::Red, 100.0f, spawnSide::down)
+
 {
+
+	//A falak elhelyezkedése
+	//a fenti fal _____________
+
 
 	UpperRect.setPosition(10.0f,0.0f);
 	UpperRect.setFillColor(sf::Color::Blue);
 	UpperRect.setSize(sf::Vector2f(780.0f,10.0f));
 
+	//bal oldali
+	//    ___________
+	//   |
+	//   | 
+	//   |
+	//   |
 	LeftRect.setPosition(0.0f, 0.0f);
 	LeftRect.setFillColor(sf::Color::Blue);
 	LeftRect.setSize(sf::Vector2f(10.0f, 600.0f));
 
+	//lenti fal lenti vízszintes
+	//  ______________
+	// |
+	// |
+	// |
+	// |______________
+
 	DownRect.setPosition(10.0f, 590.0f);
 	DownRect.setFillColor(sf::Color::Blue);
 	DownRect.setSize(sf::Vector2f(780.0f, 10.0f));
+
+	//jobb oldali fal
+	//  _____________
+	// |             |
+	// |             |
+	// |             |
+	// |_____________|
 
 	RightRect.setPosition(790.0f, 0.0f);
 	RightRect.setFillColor(sf::Color::Blue);
@@ -24,7 +51,7 @@ GameState::GameState(sf::RenderWindow* window) : State(window)
 	borders.push_back(DownRect);
 	borders.push_back(LeftRect);
 	borders.push_back(RightRect);
-
+	
 }
 
 void GameState::update(const float& dt)
@@ -45,7 +72,7 @@ void GameState::render(sf::RenderWindow* target)// sf::RenderWindow* target
 	this->window->draw(this->LeftRect);
 	this->window->draw(this->DownRect);
 	this->window->draw(this->RightRect);
-
+	this->wall.render(this->window);
 }
 
 void GameState::updateKeybinds(const float& dt)

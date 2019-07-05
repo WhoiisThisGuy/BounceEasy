@@ -6,9 +6,9 @@ Ball::Ball() {
 	this->movementSpeed = 500.0f;
 	this->ballShape.setRadius(20.0f);
 	this->ballShape.setOrigin(sf::Vector2f(20.0f, 20.0f));
-	this->ballShape.setPosition(400.0f, 200.0f);
+	this->ballShape.setPosition(100.0f, 100.0f);
 	this->ballShape.setFillColor(sf::Color::Cyan);
-	this->direction.x = -2.0f;
+	this->direction.x = 0.0f;
 	this->direction.y = 1.0f;
 	
 }
@@ -33,22 +33,6 @@ void Ball::render(sf::RenderTarget* target)
 	target->draw(this->ballShape);
 }
 
-void Ball::ChangeDriectionV2(float NearestX, float NearestY, float BallX, float BallY, float dt) {
-
-	//if (NearestX == BallX) {
-
-	//	this->direction.y = this->direction.y * -1;
-	//	NearestY <= BallY ?
-	//	this->direction.x > 0 ? this->move(dt, 5, 5) : this->move(dt, -5, 5);
-	//	
-	//}
-	//else if (NearestY == BallY)
-	//{
-	//	this->direction.x = this->direction.x * -1;
-
-	//}
-}
-
 void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float BallY,float dt)
 {
 
@@ -62,7 +46,8 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 
 		if (NearestY <= BallY)
 		{
-			this->direction.x > 0 ? this->move(dt, 5, 5) : this->move(dt, -5, 5);
+
+			this->direction.x == 0 ? this->move(dt, 0, 3) : this->direction.x > 0 ? this->move(dt,3,3) : this->move(dt,-3,3);
 
 			this->direction.y *= -1;
 		}
@@ -70,8 +55,8 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 		//Lent ütközött      
         //              _____O_____     
 		else if (NearestY >= BallY) {
-		
-			this->direction.x > 0 ? this->move(dt, 5, -5) : this->move(dt, -5, -5);
+
+			this->direction.x == 0 ? this->move(dt, 0, -3) : this->direction.x > 0 ? this->move(dt, 3, -3) : this->move(dt, -3, -3);
 
 			this->direction.y *= -1;
 		}
@@ -86,7 +71,7 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 
 		if (NearestX <= BallX) {
 
-			this->direction.y > 0 ? this->move(dt, 5, 5) : this->move(dt, 5, -5); //
+			this->direction.y > 0 ? this->move(dt, 3, 3) : this->move(dt, 3, -3); //
 
 			this->direction.x *= -1;
 		}
@@ -95,7 +80,7 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 		//                        |
 		else if (NearestX >= BallX) {
 		
-			this->direction.y > 0 ? this->move(dt, -5, 5) : this->move(dt, -5, -5);
+			this->direction.y > 0 ? this->move(dt, -3, 3) : this->move(dt, -3, -3);
 
 			this->direction.x *= -1;
 
@@ -119,39 +104,121 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 
 }
 
-void Ball::ChangeDirectionByPlayer(float NearestX, float NearestY, float BallX, float BallY)
+void Ball::ChangeDirectionByPlayer(float NearestX, float NearestY, float BallX, float BallY,float dt,Player& player)
 {
 
 
-	if (NearestX == BallX && NearestY < BallY) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			this->direction.x = this->direction.x;
-			this->direction.y = this->direction.y * -1;
-		}
-		else
+	//Fent ütközött rövidebb
+
+	//Ha az X-ek egyenlõk akkor az ütközés vízszintesen lévõ oldallal történt
+	if (NearestX == BallX) {
+
+		//Fent ütközött ___________
+		//                   O
+
+		if (NearestY <= BallY)
 		{
-			this->direction.x = this->direction.x;
-			this->direction.y = this->direction.y * -1;
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				this->direction.x = -1;
+				this->direction.y = 2;
+				this->move(dt, -1, 3);
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				this->direction.x = 0;
+				this->direction.y = 2;
+				this->move(dt, 0, 2);
+				//this->direction.y = -2;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				this->direction.x = 1;
+				this->direction.y = 2;
+				this->move(dt, 1, 3);
+			}
+			else {
+
+				this->direction.y *= -1;
+
+			}
+		}
+
+		//Lent ütközött      
+		//              _____O_____     
+		else if (NearestY >= BallY) {
+
+			//Ha éppen balra mozgunk balra vált irány a labda
+			//Föl - le mozgás esetében vertikálisan fog mozogni
+			//Ha éppen jobbra akkor jobbra
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				this->direction.x = -1;
+				this->direction.y = -2;
+				this->move(dt, -1, -3);
+				
+
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				this->direction.x = 0;
+				this->direction.y = -2;
+				this->move(dt, 0, -2);
+				//this->direction.y = -2;
+
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				this->direction.x = 1;
+				this->direction.y = -2;
+				this->move(dt, 1, -3);
+
+
+			}
+			else {
+
+				this->direction.y *= -1;
+
+			}
+				//this->direction.x > 0 ? this->move(dt, 2, -2) : this->move(dt, -2, -2);
+
+			
+		}
+	}
+	//ha az Y-ok egyenlõek akkor Függõleges oldalnak ütközött
+
+	else if (NearestY == BallY) {
+
+		//Bal oldalán ütközött |
+		//                     |O
+		//                     |
+
+		if (NearestX <= BallX) {
+
+			this->direction.y > 0 ? this->move(dt, 2, 2) : this->move(dt, 2, -2); //
+
+			this->direction.x *= -1;
+		}
+		//Jobb oldalán ütközött   |
+		//                       O| 
+		//                        |
+		else if (NearestX >= BallX) {
+
+			this->direction.y > 0 ? this->move(dt, -2, 2) : this->move(dt, -2, -2);
+
+			this->direction.x *= -1;
 
 		}
 
 	}
-	else if (NearestX == BallX && NearestY > BallY) {
+	//ez a rész arra vonatkozik ha sarkot üti meg , ekkor a BallX,BallY mindekettõ vagy nagyobb vagy kisebb de semmiképp sem egyenlõ
 
-		this->direction.x = this->direction.x;
-		this->direction.y = this->direction.y * -1;
+	//     O __   __ O
+	//      |       |        |_     _|
+	//                      O         O
 
-	}
-	else if (NearestX < BallX && NearestY == BallY) {
+	else if (BallX != NearestX && BallY != NearestY) {
 
-		this->direction.x = this->direction.x * -1;
-		this->direction.y = this->direction.y;
+		this->move(dt, this->getDirection().x * -1, this->getDirection().y * -1);
 
-	}
-	else if (NearestX > BallX && NearestY == BallY) {
-
-		this->direction.x = this->direction.x * -1;
-		this->direction.y = this->direction.y;
+		this->direction.x *= -1;
+		this->direction.y *= -1;
 
 	}
 

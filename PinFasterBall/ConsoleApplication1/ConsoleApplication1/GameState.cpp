@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "GameState.h"
 
-
+#define MAXNUMofWALLS 2
 
 GameState::GameState(sf::RenderWindow* window)
 	: State(window),
-	numberOfWalls(0), //falak száma inicializálni
 	GameOver(false) //kezdésbõl nincs game over ...
 
 {
@@ -23,13 +22,31 @@ GameState::GameState(sf::RenderWindow* window)
 	gameOverText2.setFillColor(sf::Color::White);
 	gameOverText2.setCharacterSize(25.0f);
 	gameOverText2.setPosition(250.0f, 350.0f);
+
+	Destroyedwalls = 0;
+	DestroyedWallsText.setString(std::to_string(Destroyedwalls));
+	DestroyedWallsText.setPosition(20.0f,660.0f);
+	DestroyedWallsText.setFont(font);
+	gameOverText2.setFillColor(sf::Color::White);
+}
+
+GameState::~GameState()
+{
+	for (int i = 0; i < walls.size(); i++)
+	{
+		delete walls.at(i);
+		walls.erase(walls.begin()+i);
+
+	}
+	
 }
 
 void GameState::update(const float& dt)
 {
 	if (!GameOver) {
+		this->deleteWall();
 		this->createWall();
-		this->walls.at(0)->update(dt);
+		this->UpdateWalls(dt);
 		this->ball.update(dt);
 		this->player.update(dt);
 		this->updateKeybinds();
@@ -44,14 +61,15 @@ void GameState::update(const float& dt)
 
 void GameState::render()// sf::RenderWindow* target
 {
-	this->createWall();
+	
+	this->DrawWalls(this->window);
 	this->player.render(this->window);
 	this->ball.render(this->window);
 	this->window->draw(this->UpperRect);
 	this->window->draw(this->LeftRect);
 	this->window->draw(this->DownRect);
 	this->window->draw(this->RightRect);
-	this->walls.at(0)->render(this->window);
+	this->window->draw(this->DestroyedWallsText);
 
 	if (GameOver) {
 	
@@ -66,12 +84,46 @@ void GameState::updateKeybinds()//const float& dt
 		this->checkForPlay();
 }
 
+void GameState::UpdateWalls(const float& dt)
+{
+
+	for (int i = 0; i < this->walls.size(); i++)
+	{
+		if ((walls.at(i)->getWallState()) == alive)
+		{
+
+			walls.at(i)->update(dt);
+
+		}
+	}
+
+}
+
 void GameState::createWall()
 {
-	if (this->numberOfWalls == 0) {
-		walls.push_back(new Wall(sf::Color::Red, 100.0f, down,10));
-		this->numberOfWalls += 1;
+
+	if (this->walls.size() < MAXNUMofWALLS) {
+
+		SpawnSide side = static_cast<SpawnSide>(rand() % 4);;
+
+		walls.push_back(new Wall(sf::Color::Red, 100.0f, side, 10));
+		
 	}
+}
+
+void GameState::deleteWall()
+{
+
+	for (int i = 0; i < this->walls.size(); i++)
+	{
+		if ((walls.at(i)->getWallState()) == dead) {
+			delete walls.at(i);
+			walls.erase(walls.begin() + i);
+			Destroyedwalls += 1;
+			DestroyedWallsText.setString(std::to_string(Destroyedwalls));
+		}
+	}
+
 }
 
 void GameState::checkForQuit()
@@ -90,6 +142,15 @@ void GameState::checkForPlay() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
 	
 		this->play = true;
+	
+	}
+
+}
+void GameState::DrawWalls(sf::RenderWindow* window)
+{
+	for (int i = 0; i < walls.size();i++) {
+	
+		window->draw(walls.at(i)->getShape());
 	
 	}
 

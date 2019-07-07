@@ -2,11 +2,12 @@
 #include "pch.h"
 #include "Wall.h"
 
-Wall::Wall(sf::Color _color, float _movementSpeed, spawnSide _side,int _hitPoints)
+Wall::Wall(sf::Color _color, float _movementSpeed, SpawnSide _side,int _hitPoints)
 
 : side(_side),
 movementSpeed(_movementSpeed),
-hitPoints(_hitPoints)
+hitPoints(_hitPoints),
+wstate(alive)
 
 {
 
@@ -34,7 +35,7 @@ void Wall::render(sf::RenderTarget* target)
 	target->draw(this->shape);
 }
 
-void Wall::initWall(spawnSide side)
+void Wall::initWall(SpawnSide side)
 {
 	switch (side)
 	{
@@ -67,7 +68,18 @@ void Wall::initWall(spawnSide side)
 	};
 }
 
-const sf::RectangleShape Wall::getShape() const
+sf::RectangleShape& Wall::getShape()
 {
 	return this->shape;
+}
+
+void Wall::minus()
+{
+
+	this->hitPoints -= 1;
+	if (this->hitPoints <= 0) {
+		
+		this->wstate = dead;
+
+	}
 }

@@ -17,7 +17,7 @@ Game::Game()
 //Initializer
 void Game::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(800,600),"PinFasterBall");
+	this->window = new sf::RenderWindow(sf::VideoMode(800,700),"PinFasterBall");
 	window->setFramerateLimit(200);
 }
 
@@ -44,8 +44,6 @@ Game::~Game() {
 
 void Game::endApplication()
 {
-
-	std::cout << "ending application"<<"\n";
 
 }
 

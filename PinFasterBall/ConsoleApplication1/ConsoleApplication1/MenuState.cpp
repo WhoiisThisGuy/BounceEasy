@@ -10,16 +10,21 @@ MenuState::MenuState(sf::RenderWindow* window)
 	InitBorders();
 	text.setFont(font);
 	text.setCharacterSize(20);
-	text.setString("Hi this is a pinball game, but instead of breaking small chunks of blocks\nyou have to break big walls, which will move towards you.\n"
-		"You can break them but you have to hit them more than once...\nIf they reach you it is Game Over.\n"
-		"You can rotate by pressing R and one of the cursors (Up,Down,Left,Right).\nIf you press rotate in the exact time the ball hits you\n"
-		"the ball will go to the direction of the cursor you hit while rotating.\nGL & HF\nAuthor@Near.");
+	text.setString("Hi this is a pinball(ish) game, but instead of breaking small chunks of blocks\nyou have to break big walls,\n"
+		"they are big and red and they move towards you.\n"
+		"Controlling: with the cursors (you can move up and down aswell)\n"
+		"The ball always goes in the direction of the cursor you pressed.\n"
+		"You can break them but you have to hit them 10 times.\nIf they reach you it is Game Over.\n"
+		"You can rotate by pressing R and one of the cursors (Left,Right).\nIf you use rotating in the exact time the ball hits you\n"
+		"the ball will go into the direction you rotated to.\n"
+		"TIP: you should move the ball as close as you can between you and the wall and you will hit a lot.\n"
+		"GL & HF\nAuthor@Near.");
 	
-	text.setPosition(20.0f,200.0f);
+	text.setPosition(20.0f,20.0f);
 	text2.setFont(font);
 	text2.setCharacterSize(18);
 	text2.setString("Press Space to Play or Esc to Quit.");
-	text2.setPosition(300.0f, 450.0f);
+	text2.setPosition(270.0f, 450.0f);
 
 }
 

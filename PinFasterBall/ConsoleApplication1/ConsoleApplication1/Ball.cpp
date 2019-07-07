@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "Ball.h"
 
+
+
 Ball::Ball() {
 
-	this->movementSpeed = 500.0f;
+	this->movementSpeed = 600.0f;
 	this->ballShape.setRadius(20.0f);
 	this->ballShape.setOrigin(sf::Vector2f(20.0f, 20.0f));
-	this->ballShape.setPosition(100.0f, 100.0f);
+	this->ballShape.setPosition(400.0f, 270.0f);
 	this->ballShape.setFillColor(sf::Color::Cyan);
 	this->direction.x = 0.0f;
 	this->direction.y = 1.0f;
@@ -71,7 +73,7 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 
 		if (NearestX <= BallX) {
 
-			this->direction.y > 0 ? this->move(dt, 3, 3) : this->move(dt, 3, -3); //
+			this->direction.y > 0 ? this->move(dt, 3, 0) : this->move(dt, 3, 0); //
 
 			this->direction.x *= -1;
 		}
@@ -80,7 +82,7 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 		//                        |
 		else if (NearestX >= BallX) {
 		
-			this->direction.y > 0 ? this->move(dt, -3, 3) : this->move(dt, -3, -3);
+			this->direction.y > 0 ? this->move(dt, -3, 0) : this->move(dt, -3, 0);
 
 			this->direction.x *= -1;
 
@@ -118,27 +120,53 @@ void Ball::ChangeDirectionByPlayer(float NearestX, float NearestY, float BallX, 
 
 		if (NearestY <= BallY)
 		{
+			//LE VAN NYOMVA A LCTRL
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					this->direction.x = -1.0f;
+					this->direction.y = 0.0f;
+					this->move(dt, -2, 0);
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				this->direction.x = -1;
-				this->direction.y = 2;
-				this->move(dt, -1, 3);
+
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+
+					this->direction.x = 1.0f;
+					this->direction.y = 0.0f;
+					this->move(dt, 2, 0);
+
+				}
+				else {
+				
+					this->direction.y *= -1;
+					this->move(dt, 0, 2);
+				
+				}
+
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				this->direction.x = 0;
-				this->direction.y = 2;
-				this->move(dt, 0, 2);
-				//this->direction.y = -2;
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				this->direction.x = 1;
-				this->direction.y = 2;
-				this->move(dt, 1, 3);
-			}
+			//NINCS LENYOMVA A LCTRL
 			else {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					this->direction.x = -1;
+					this->direction.y = 2;
+					this->move(dt, -1, 3);
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+					this->direction.x = 0;
+					this->direction.y = 2;
+					this->move(dt, 0, 2);
+					//this->direction.y = -2;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					this->direction.x = 1;
+					this->direction.y = 2;
+					this->move(dt, 1, 3);
+				}
+				else {
 
-				this->direction.y *= -1;
+					this->direction.y *= -1;
 
+				}
 			}
 		}
 
@@ -149,35 +177,57 @@ void Ball::ChangeDirectionByPlayer(float NearestX, float NearestY, float BallX, 
 			//Ha éppen balra mozgunk balra vált irány a labda
 			//Föl - le mozgás esetében vertikálisan fog mozogni
 			//Ha éppen jobbra akkor jobbra
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				this->direction.x = -1;
-				this->direction.y = -2;
-				this->move(dt, -1, -3);
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
 				
-
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				this->direction.x = 0;
-				this->direction.y = -2;
-				this->move(dt, 0, -2);
-				//this->direction.y = -2;
-
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				this->direction.x = 1;
-				this->direction.y = -2;
-				this->move(dt, 1, -3);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					this->direction.x = -2.0f;
+					this->direction.y = 0.0f;
+					this->move(dt, -2, 0);
 
 
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				
+					this->direction.x = 2.0f;
+					this->direction.y = 0.0f;
+					this->move(dt, 2, 0);
+
+				}
+				else {
+
+					this->direction.y *= -1;
+					this->move(dt, 0, -2);
+				}
 			}
 			else {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					this->direction.x = -1;
+					this->direction.y = -2;
+					this->move(dt, -1, -3);
 
-				this->direction.y *= -1;
 
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+					this->direction.x = 0;
+					this->direction.y = -2;
+					this->move(dt, 0, -2);
+					//this->direction.y = -2;
+
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					this->direction.x = 1;
+					this->direction.y = -2;
+					this->move(dt, 1, -3);
+
+
+				}
+				else {
+
+					this->direction.y *= -1;
+
+				}
+				
 			}
-				//this->direction.x > 0 ? this->move(dt, 2, -2) : this->move(dt, -2, -2);
-
 			
 		}
 	}
@@ -185,25 +235,114 @@ void Ball::ChangeDirectionByPlayer(float NearestX, float NearestY, float BallX, 
 
 	else if (NearestY == BallY) {
 
-		//Bal oldalán ütközött |
+		//Bal oldalán ütközött 
 		//                     |O
-		//                     |
+		//                     
 
 		if (NearestX <= BallX) {
 
-			this->direction.y > 0 ? this->move(dt, 2, 2) : this->move(dt, 2, -2); //
+			//LE VAN NYOMVA A LCTRL
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					this->direction.x = 0.0f;
+					this->direction.y = -2.0f;
+					this->move(dt, -2, 0);
 
-			this->direction.x *= -1;
+
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+
+					this->direction.x = 0.0f;
+					this->direction.y = 2.0f;
+					this->move(dt, 2, 0);
+
+				}
+				else {
+
+					this->direction.x *= -1;
+					this->move(dt, 2, 0);
+
+				}
+
+			}
+			//NINCS LENYOMVA A LCTRL
+			else {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					this->direction.x = 2;
+					this->direction.y = 0;
+					this->move(dt, 2, 0);
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+					this->direction.x = 1;
+					this->direction.y = -2;
+					this->move(dt, 1, -1);
+					
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+					this->direction.x = 1;
+					this->direction.y = 2;
+					this->move(dt, 1, 1);
+				}
+				else {
+
+					this->direction.x *= -1;
+
+				}
+			}
 		}
-		//Jobb oldalán ütközött   |
+		//Jobb oldalán ütközött   
 		//                       O| 
-		//                        |
+		//                        
 		else if (NearestX >= BallX) {
 
-			this->direction.y > 0 ? this->move(dt, -2, 2) : this->move(dt, -2, -2);
+			//LE VAN NYOMVA A LCTRL
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					this->direction.x =  0.0f;
+					this->direction.y = 2.0f;
+					this->move(dt, 0.0f, 2.0f);
 
-			this->direction.x *= -1;
 
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+
+					this->direction.x = 0.0f;
+					this->direction.y = -2.0f;
+					this->move(dt, 0.0f, -2.0f);
+
+				}
+				else {
+
+					this->direction.x *= -1;
+					this->move(dt, -2, 0);
+
+				}
+
+			}
+			//NINCS LENYOMVA A LCTRL
+			else {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					this->direction.x = -2;
+					this->direction.y = 0;
+					this->move(dt, -2, 0);
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+					this->direction.x = -1;
+					this->direction.y = -2;
+					this->move(dt, -1, -1);
+
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+					this->direction.x = 1;
+					this->direction.y = 2;
+					this->move(dt, 1, 1);
+				}
+				else {
+
+					this->direction.x *= -1;
+
+				}
+			}
 		}
 
 	}

@@ -1,6 +1,13 @@
 #include "pch.h"
 #include "Collider.h"
 
+//két féle collision check van: a labda és téglalap közötti collision detektálása (kör alak téglalap alak),
+//valamint téglalap - téglalap alak (a wall és player) detektálása
+//utóbbi esetben GameOver true-ra lesz állítva.
+//A többi esetben a labda irányt változtat.
+//Külön direction change vonatkozik a player - labda közötti ütközés detektálásakor.
+//A labdát a player elütheti vízszintesen vagy függõlegesen, a falról csak simán visszapattan a labda.
+
 Collider::Collider()
 
 	:GameOver(false)
@@ -22,7 +29,7 @@ bool Collider::checkCollision(Player& player, Ball& ball, const std::vector<sf::
 	checkPlayerBallCollision(ball, player, dt); //Player és labda ütközés check
 	checkBallBorderCollision(ball, borders, dt); //Labda és border (pályaszélek)
 	checkBallWallCollision(ball, walls, dt); //labda és a falak (amik mozognak falak)
-	checkPlayerWallCollision(player,walls,dt);
+	checkPlayerWallCollision(player,walls,dt); //player és a mozgó falak, ez állíthatja a GameOvert amit visszadobunk a végén.
 
 	return GameOver;
 }
@@ -30,8 +37,8 @@ bool Collider::checkCollision(Player& player, Ball& ball, const std::vector<sf::
 void Collider::checkPlayerBallCollision(Ball& ball,Player& player,const float& dt)
 {
 
-	float RectX = player.getShape().getPosition().x;
-	float RectY = player.getShape().getPosition().y;
+	float RectX = player.getShape().getGlobalBounds().left; // player.getShape().getPosition()
+	float RectY = player.getShape().getGlobalBounds().top; // player.getShape().getPosition()
 
 	float RectWidth = player.getShape().getGlobalBounds().width;
 	float RectHeight = player.getShape().getGlobalBounds().height;
@@ -56,37 +63,32 @@ void Collider::checkPlayerBallCollision(Ball& ball,Player& player,const float& d
 
 }
 
+//Az SFML könyvtár saját "Collision detection"-jét használom, igazából csak két négyszögre megmondja, hogy érintkeznek e.
+//Ha érintkeznek gém óver.
+
 void Collider::checkPlayerWallCollision(Player& player, std::vector<Wall*>& walls, const float& dt) /////COLLISION 2 TÉGLALAPRA MEGCSINALNI
 {
-	sf::Vector2f PlayerPosition;
-	sf::Vector2f PlayerHalfSize;
-	sf::Vector2f wallPosition;
-	sf::Vector2f wallHalfSize;
 
-	float DeltaX;
-	float DeltaY;
+	sf::Rect<float> PlayerRect;
+	sf::Rect<float> WallRect;
 
-	float intersectX;
-	float intersectY;
+	PlayerRect.top = player.getShape().getGlobalBounds().top;
+	PlayerRect.height = player.getShape().getGlobalBounds().height;
+	PlayerRect.left = player.getShape().getGlobalBounds().left;
+	PlayerRect.width = player.getShape().getGlobalBounds().width;
+
 
 	for (int i = 0; i < walls.size(); i++)
 	{
-		
-		PlayerPosition = player.getShape().getPosition();
-		PlayerHalfSize = player.getShape().getSize()/2.0f;
-		wallPosition = walls.at(i)->getShape().getPosition();
-		wallHalfSize = walls.at(i)->getShape().getSize() / 2.0f;
+		WallRect.top = walls.at(i)->getShape().getGlobalBounds().top;
+		WallRect.height = walls.at(i)->getShape().getGlobalBounds().height;
+		WallRect.left = walls.at(i)->getShape().getGlobalBounds().left;
+		WallRect.width = walls.at(i)->getShape().getGlobalBounds().width;
 
-		DeltaX = wallPosition.x - PlayerPosition.x;
-		DeltaY = wallPosition.y - PlayerPosition.y;
-
-		intersectX = abs(DeltaX) - (PlayerHalfSize.x + wallHalfSize.x);
-		intersectY = abs(DeltaY) - (PlayerHalfSize.y + wallHalfSize.y);
-
-		if (intersectX < -4.0f && intersectY < -4.0f) { //egymásba van a két object , gg end
-
-			GameOver = true;
+		if (PlayerRect.intersects(WallRect)) {
 			
+			GameOver = true; //VISSZATENNI lul
+		
 		}
 	}
 
@@ -109,7 +111,7 @@ void Collider::checkBallWallCollision(Ball& ball, std::vector<Wall*>& walls, con
 
 	for (int i = 0; i < walls.size(); i++)
 	{
-		
+		walls.at(i)->getShape().setFillColor(sf::Color::Red);
 		RectX = walls.at(i)->getShape().getPosition().x;
 		RectY = walls.at(i)->getShape().getPosition().y;
 
@@ -123,8 +125,10 @@ void Collider::checkBallWallCollision(Ball& ball, std::vector<Wall*>& walls, con
 		DeltaY = this->CircleY - NearestY;
 
 		if (collide(DeltaX, DeltaY)) {
-
-			ball.ChangeDirection(NearestX, NearestY, this->CircleX, this->CircleY, dt);
+			walls.at(i)->getShape().setFillColor(sf::Color::White);
+			ball.ChangeDirection(NearestX, NearestY, this->CircleX, this->CircleY, dt); //Sima direction change van
+			walls.at(i)->minus(); //kivonni a hitpointból
+			
 		}
 	}
 

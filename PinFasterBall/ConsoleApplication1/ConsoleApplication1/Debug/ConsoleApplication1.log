@@ -1,0 +1,5 @@
+﻿  Collider.cpp
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\Collider.cpp(72,20): warning C4018:  '<': signed/unsigned mismatch
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\Collider.cpp(110,20): warning C4018:  '<': signed/unsigned mismatch
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\Collider.cpp(148,20): warning C4018:  '<': signed/unsigned mismatch
+  ConsoleApplication1.vcxproj -> C:\PinBallFaster\PinFasterBall\ConsoleApplication1\Debug\PinFasterBall.exe

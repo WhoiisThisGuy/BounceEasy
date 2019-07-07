@@ -1,7 +1,12 @@
 #include "pch.h"
 #include "Game.h"
 
-Game::Game() {
+
+Game::Game()
+
+	:GameOver(false)
+
+{
 
 	this->initWindow();
 	this->initStates();
@@ -18,7 +23,9 @@ void Game::initWindow()
 
 void Game::initStates()
 {
-	this->states.push(new GameState(this->window));
+	
+	
+	this->states.push(new MenuState(this->window));
 	
 }
 
@@ -65,14 +72,47 @@ void Game::update()
 	this->updateSFMLEvents();
 	if (!this->states.empty()) {
 		this->states.top()->update(this->dt);
-		if (this->states.top()->getQuit()) {
+
+		if (dynamic_cast<GameState*>(this->states.top()) && (this->states.top()->getQuit() || this->states.top()->getPlay())) {
+
+			if (this->states.top()->getQuit())
+				{
+					delete this->states.top();
+					this->states.pop();
+					this->states.push(new MenuState(this->window));
+				}
+			else if (this->states.top()->getPlay()) {
+
+				delete this->states.top();
+				this->states.pop();
+				this->states.push(new GameState(this->window));
+
+			}
+
 			
+			
+		}
+
+		else if (dynamic_cast<MenuState*>(this->states.top()) && (this->states.top()->getQuit() || this->states.top()->getPlay())) {
+		
+			
+
 			//this->states.top()->endState(); //ez az endState, esetleg ha valamit végre akarok még hajtani
 			//Ezt azért itt delete és nem a destruktorban mert ha még le akarok játszani valami end animationt akkor itt meglehet tenni.
-			delete this->states.top();
-			this->states.pop();
-		
+			
+			if(this->states.top()->getQuit())
+				while (!this->states.empty()) {
+					delete this->states.top();
+					this->states.pop();
+				}
+			else if (this->states.top()->getPlay()) {
+			
+				delete this->states.top();
+				this->states.pop();
+				this->states.push(new GameState(this->window));
+			}
 		}
+		
 	}
 	else
 	{
@@ -95,7 +135,7 @@ void Game::render()
 
 	//Render Items
 
-	if (!this->states.empty())
+	if (!this->states.empty()) //GameOvert a GameState-ben állítom be és a Collider dönt mi lesz benne
 		this->states.top()->render();
 
 	this->window->display();
@@ -113,6 +153,8 @@ void Game::run()
 
 	while (this->window->isOpen())
 	{
+		
+		
 		this->updateDt();
 		this->update();
 		this->render();

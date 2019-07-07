@@ -36,14 +36,14 @@ void Player::update(const float& dt)
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 
-		
+		if (this->shape.getPosition().y > 10.0f)
 			this->move(dt, 0.f, -1.f);
 
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 
-		
+		if (this->shape.getPosition().y < 580.0f)
 			this->move(dt, 0.f, 1.f);
 
 	}

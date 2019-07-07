@@ -1,86 +1,99 @@
 #include "pch.h"
 #include "GameState.h"
 
+
+
 GameState::GameState(sf::RenderWindow* window)
 	: State(window),
-	wall(sf::Color::Red, 100.0f, spawnSide::down)
+	numberOfWalls(0), //falak száma inicializálni
+	GameOver(false) //kezdésbõl nincs game over ...
 
 {
 
-	//A falak elhelyezkedése
-	//a fenti fal _____________
-
-
-	UpperRect.setPosition(10.0f,0.0f);
-	UpperRect.setFillColor(sf::Color::Blue);
-	UpperRect.setSize(sf::Vector2f(780.0f,10.0f));
-
-	//bal oldali
-	//    ___________
-	//   |
-	//   | 
-	//   |
-	//   |
-	LeftRect.setPosition(0.0f, 0.0f);
-	LeftRect.setFillColor(sf::Color::Blue);
-	LeftRect.setSize(sf::Vector2f(10.0f, 600.0f));
-
-	//lenti fal lenti vízszintes
-	//  ______________
-	// |
-	// |
-	// |
-	// |______________
-
-	DownRect.setPosition(10.0f, 590.0f);
-	DownRect.setFillColor(sf::Color::Blue);
-	DownRect.setSize(sf::Vector2f(780.0f, 10.0f));
-
-	//jobb oldali fal
-	//  _____________
-	// |             |
-	// |             |
-	// |             |
-	// |_____________|
-
-	RightRect.setPosition(790.0f, 0.0f);
-	RightRect.setFillColor(sf::Color::Blue);
-	RightRect.setSize(sf::Vector2f(10.0f, 600.0f));
-
-	borders.push_back(UpperRect);
-	borders.push_back(DownRect);
-	borders.push_back(LeftRect);
-	borders.push_back(RightRect);
+	State::InitBorders(); //Beállítani a pályaszéleket (State-bõl jön)
 	
+	gameOverText.setFont(font);
+	gameOverText.setString("OH NO... Game Over");
+	gameOverText.setFillColor(sf::Color::Red);
+	gameOverText.setCharacterSize(30.0f);
+	gameOverText.setPosition(270.0f,300.0f);
+
+	gameOverText2.setFont(font);
+	gameOverText2.setString("Press 'R' for restart or 'Q' to Quit!");
+	gameOverText2.setFillColor(sf::Color::White);
+	gameOverText2.setCharacterSize(25.0f);
+	gameOverText2.setPosition(250.0f, 350.0f);
 }
 
 void GameState::update(const float& dt)
 {
+	if (!GameOver) {
+		this->createWall();
+		this->walls.at(0)->update(dt);
+		this->ball.update(dt);
+		this->player.update(dt);
+		this->updateKeybinds();
+		GameOver = this->collider.checkCollision(this->player, this->ball, this->borders, this->walls, dt);
+	}
+	else {
+		
+		this->updateKeybinds();
 	
-	this->ball.update(dt);
-	this->player.update(dt);
-	this->updateKeybinds(dt);
-	this->collider.checkCollision(this->player, this->ball, this->borders,dt);
+	}
 }
 
-void GameState::render(sf::RenderWindow* target)// sf::RenderWindow* target
+void GameState::render()// sf::RenderWindow* target
 {
-	
+	this->createWall();
 	this->player.render(this->window);
 	this->ball.render(this->window);
 	this->window->draw(this->UpperRect);
 	this->window->draw(this->LeftRect);
 	this->window->draw(this->DownRect);
 	this->window->draw(this->RightRect);
-	this->wall.render(this->window);
+	this->walls.at(0)->render(this->window);
+
+	if (GameOver) {
+	
+		this->window->draw(this->gameOverText);
+		this->window->draw(this->gameOverText2);
+	}
 }
 
-void GameState::updateKeybinds(const float& dt)
+void GameState::updateKeybinds()//const float& dt
 {
-	this->checkForQuit();
+		this->checkForQuit();
+		this->checkForPlay();
+}
+
+void GameState::createWall()
+{
+	if (this->numberOfWalls == 0) {
+		walls.push_back(new Wall(sf::Color::Red, 100.0f, down,10));
+		this->numberOfWalls += 1;
+	}
+}
+
+void GameState::checkForQuit()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+
+		this->quit = true;
+	}
+	//Megállitom a gémet törlök mindent és menu state-be lépünk
 
 }
 
+
+void GameState::checkForPlay() {
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+	
+		this->play = true;
+	
+	}
+
+}
 //std cout-al befagyott valamilyen oknál fogva az endstate---> kérõdjel miért
 
 void GameState::endState()

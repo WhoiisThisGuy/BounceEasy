@@ -1,5 +1,6 @@
 #pragma once
 #include "GameState.h"
+#include "MenuState.h"
 class Game
 {
 	//Változók
@@ -14,6 +15,7 @@ class Game
 
 		std::stack<State*> states;
 		
+		
 		//Függvények
 private:
 
@@ -22,6 +24,10 @@ private:
 	//Initialization
 	void initWindow();
 	void initStates();
+
+public:
+
+	bool GameOver;
 
 public:
 

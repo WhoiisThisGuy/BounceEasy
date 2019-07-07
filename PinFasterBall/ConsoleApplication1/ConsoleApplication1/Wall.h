@@ -7,8 +7,9 @@ enum spawnSide { left, right, top, down };
 
 class Wall {
 
+public:
 	//Konstruktor / destruktor
-	Wall(sf::Color color, float movementSpeed);
+	Wall(sf::Color _color, float _movementSpeed, spawnSide _side,int _hitPoints);
 	~Wall() = default;
 
 	void move(const float& dt, const float x, const float y); //mozgatja a kör alakot (float deltaido (kepkockak frissitese között eltelt ido), x irány, y irány)
@@ -23,10 +24,15 @@ class Wall {
 	const sf::Vector2f getDirection() { return this->direction; };
 	void setDirection(float x, float y) { this->direction.x = x; this->direction.y = y; }
 
+	//Getter / Setter a shape-hez
+	const sf::RectangleShape getShape() const;
+
 	//Irányváltoztatás ha collision van!
-	void ChangeDirection(float NearestX, float NearestY, float BallX, float BallY, float dt);
+	//void ChangeDirection(float NearestX, float NearestY, float BallX, float BallY, float dt);
 
 private:
+
+	int hitPoints;
 
 	spawnSide side;
 	sf::RectangleShape shape;

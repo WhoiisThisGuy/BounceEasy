@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "Ball.h"
 
-
-
 Ball::Ball() {
 
-	this->movementSpeed = 600.0f;
+	this->movementSpeed = 400.0f;
 	this->ballShape.setRadius(20.0f);
 	this->ballShape.setOrigin(sf::Vector2f(20.0f, 20.0f));
-	this->ballShape.setPosition(400.0f, 270.0f);
+	this->ballShape.setPosition(400.0f, 300.0f);
 	this->ballShape.setFillColor(sf::Color::Cyan);
 	this->direction.x = 0.0f;
 	this->direction.y = 1.0f;
@@ -35,6 +33,10 @@ void Ball::render(sf::RenderTarget* target)
 	target->draw(this->ballShape);
 }
 
+//Nagyon sok else if, külön szedni függvényekbe, más logikát kitalálni!
+//Ami történik: megnézem melyik oldallal ütközött a labda és attól függõen állítom be az új irányát
+//Plusz Move-olom és ez megoldja a hogy úgy tûnjön arrébb löktem a labdát az ütközés pillanatában.
+//Azt hogy merre lököm el szintén ugyanúgy megvizsgálom elõtte.
 void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float BallY,float dt)
 {
 
@@ -109,7 +111,6 @@ void Ball::ChangeDirection(float NearestX, float NearestY,float BallX,float Ball
 void Ball::ChangeDirectionByPlayer(float NearestX, float NearestY, float BallX, float BallY,float dt,Player& player)
 {
 
-
 	//Fent ütközött rövidebb
 
 	//Ha az X-ek egyenlõk akkor az ütközés vízszintesen lévõ oldallal történt
@@ -155,7 +156,7 @@ void Ball::ChangeDirectionByPlayer(float NearestX, float NearestY, float BallX, 
 					this->direction.x = 0;
 					this->direction.y = 2;
 					this->move(dt, 0, 2);
-					//this->direction.y = -2;
+					
 				}
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 					this->direction.x = 1;

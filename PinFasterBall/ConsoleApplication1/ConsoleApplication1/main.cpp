@@ -1,6 +1,10 @@
+//Author@Nate River
+
 #include "pch.h"
 #include "Game.h"
 #include "State.h"
+
+
 
 int main()
 {

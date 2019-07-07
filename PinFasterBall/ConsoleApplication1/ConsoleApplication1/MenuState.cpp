@@ -5,8 +5,6 @@ MenuState::MenuState(sf::RenderWindow* window)
 	:State(window)
 
 {
-
-
 	InitBorders();
 	text.setFont(font);
 	text.setCharacterSize(20);

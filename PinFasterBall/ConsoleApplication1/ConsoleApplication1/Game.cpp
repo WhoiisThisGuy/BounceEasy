@@ -23,8 +23,7 @@ void Game::initWindow()
 
 void Game::initStates()
 {
-	
-	
+
 	this->states.push(new MenuState(this->window));
 	
 }
@@ -65,6 +64,7 @@ void Game::updateSFMLEvents()
 
 }
 
+//State machine megoldás-t bevezetni mindenképpen a stackes megoldás helyett.
 void Game::update()
 {
 	this->updateSFMLEvents();
@@ -86,15 +86,9 @@ void Game::update()
 				this->states.push(new GameState(this->window));
 
 			}
-
-			
-			
 		}
 
 		else if (dynamic_cast<MenuState*>(this->states.top()) && (this->states.top()->getQuit() || this->states.top()->getPlay())) {
-		
-			
-
 			//this->states.top()->endState(); //ez az endState, esetleg ha valamit végre akarok még hajtani
 			//Ezt azért itt delete és nem a destruktorban mert ha még le akarok játszani valami end animationt akkor itt meglehet tenni.
 			

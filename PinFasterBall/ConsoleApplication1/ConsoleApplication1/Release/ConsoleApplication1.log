@@ -1,0 +1,13 @@
+﻿  GameState.cpp
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(17,32): warning C4244:  'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(23,33): warning C4244:  'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(35,20): warning C4018:  '<': signed/unsigned mismatch
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(90,20): warning C4018:  '<': signed/unsigned mismatch
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(117,20): warning C4018:  '<': signed/unsigned mismatch
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(151,20): warning C4018:  '<': signed/unsigned mismatch
+  Generating code
+  1 of 367 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  ConsoleApplication1.vcxproj -> C:\PinBallFaster\PinFasterBall\ConsoleApplication1\Release\PinFasterBall.exe

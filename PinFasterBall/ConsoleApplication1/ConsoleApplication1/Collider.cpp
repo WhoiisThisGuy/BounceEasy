@@ -6,7 +6,8 @@
 //utóbbi esetben GameOver true-ra lesz állítva.
 //A többi esetben a labda irányt változtat.
 //Külön direction change vonatkozik a player - labda közötti ütközés detektálásakor.
-//A labdát a player elütheti vízszintesen vagy függõlegesen, a falról csak simán visszapattan a labda.
+//A labdát a player elütheti vízszintesen vagy függõlegesen, a falról csak simán visszapattan a labda a megfelelõ irányban.
+//A collisionon még dolgozni kell nem elég részletes sarkokba beleakadhat, elforgatásnál szintén.
 
 Collider::Collider()
 
@@ -87,7 +88,7 @@ void Collider::checkPlayerWallCollision(Player& player, std::vector<Wall*>& wall
 
 		if (PlayerRect.intersects(WallRect)) {
 			
-			GameOver = true; //VISSZATENNI lul
+			GameOver = true;
 		
 		}
 	}

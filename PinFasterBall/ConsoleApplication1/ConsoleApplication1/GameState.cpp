@@ -24,7 +24,7 @@ GameState::GameState(sf::RenderWindow* window)
 	gameOverText2.setPosition(250.0f, 350.0f);
 
 	Destroyedwalls = 0;
-	DestroyedWallsText.setString(std::to_string(Destroyedwalls));
+	DestroyedWallsText.setString("Number of destroyed walls : "+std::to_string(Destroyedwalls));
 	DestroyedWallsText.setPosition(20.0f,660.0f);
 	DestroyedWallsText.setFont(font);
 	gameOverText2.setFillColor(sf::Color::White);
@@ -106,7 +106,7 @@ void GameState::createWall()
 
 		SpawnSide side = static_cast<SpawnSide>(rand() % 4);;
 
-		walls.push_back(new Wall(sf::Color::Red, 100.0f, side, 10));
+		walls.push_back(new Wall(sf::Color::Red, 90.0f, side, 5));
 		
 	}
 }
@@ -120,7 +120,7 @@ void GameState::deleteWall()
 			delete walls.at(i);
 			walls.erase(walls.begin() + i);
 			Destroyedwalls += 1;
-			DestroyedWallsText.setString(std::to_string(Destroyedwalls));
+			DestroyedWallsText.setString("Number of destroyed walls : " + std::to_string(Destroyedwalls));
 		}
 	}
 

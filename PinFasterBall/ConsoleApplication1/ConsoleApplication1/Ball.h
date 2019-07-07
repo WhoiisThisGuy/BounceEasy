@@ -12,7 +12,7 @@ public:
 	void update(const float& dt);
 	void render(sf::RenderTarget* target);
 
-	const sf::CircleShape& getShape() { return this->ballShape; }; //Konstanst vissza rakni
+	const sf::CircleShape& getShape() { return this->ballShape; };
 
 	//Getter / Setter a direction vektor eléréséhez
 	const sf::Vector2f getDirection() { return this->direction; };

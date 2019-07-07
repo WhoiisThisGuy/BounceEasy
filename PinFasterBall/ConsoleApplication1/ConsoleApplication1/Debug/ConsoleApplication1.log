@@ -1,8 +1,21 @@
-﻿  GameState.cpp
+﻿  pch.cpp
+  Ball.cpp
+  Collider.cpp
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\Collider.cpp(81,20): warning C4018:  '<': signed/unsigned mismatch
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\Collider.cpp(112,20): warning C4018:  '<': signed/unsigned mismatch
+  Game.cpp
+  GameState.cpp
+C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\Collider.cpp(152,20): warning C4018:  '<': signed/unsigned mismatch
 C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(17,32): warning C4244:  'argument': conversion from 'float' to 'unsigned int', possible loss of data
 C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(23,33): warning C4244:  'argument': conversion from 'float' to 'unsigned int', possible loss of data
 C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(35,20): warning C4018:  '<': signed/unsigned mismatch
 C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(90,20): warning C4018:  '<': signed/unsigned mismatch
 C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(117,20): warning C4018:  '<': signed/unsigned mismatch
+  main.cpp
+  MenuState.cpp
+  Player.cpp
+  State.cpp
+  Wall.cpp
+  Generating Code...
 C:\PinBallFaster\PinFasterBall\ConsoleApplication1\ConsoleApplication1\GameState.cpp(151,20): warning C4018:  '<': signed/unsigned mismatch
   ConsoleApplication1.vcxproj -> C:\PinBallFaster\PinFasterBall\ConsoleApplication1\Debug\PinFasterBall.exe

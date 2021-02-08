@@ -32,12 +32,16 @@ GameState::GameState(sf::RenderWindow* window)
 
 GameState::~GameState()
 {
-	for (int i = 0; i < walls.size(); i++)
-	{
-		delete walls.at(i);
-		walls.erase(walls.begin()+i);
+		int i = 0;
+		int length = walls.size();
 
-	}
+		for (; i < length; i++)
+		{
+			delete walls.at(i);
+
+		}
+
+		walls.clear();
 	
 }
 

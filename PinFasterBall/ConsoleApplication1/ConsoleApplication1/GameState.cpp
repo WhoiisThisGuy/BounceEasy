@@ -5,11 +5,11 @@
 
 GameState::GameState(sf::RenderWindow* window)
 	: State(window),
-	GameOver(false) //kezdésbõl nincs game over ...
+	GameOver(false) 
 
 {
 
-	State::InitBorders(); //Beállítani a pályaszéleket (State-bõl jön)
+	State::InitBorders();
 	
 	gameOverText.setFont(font);
 	gameOverText.setString("OH NO... Game Over");
@@ -132,7 +132,7 @@ void GameState::checkForQuit()
 
 		this->quit = true;
 	}
-	//Megállitom a gémet törlök mindent és menu state-be lépünk
+	//MegÃ¡llitom a gÃ©met tÃ¶rlÃ¶k mindent Ã©s menu state-be lÃ©pÃ¼nk
 
 }
 
@@ -155,12 +155,12 @@ void GameState::DrawWalls(sf::RenderWindow* window)
 	}
 
 }
-//std cout-al befagyott valamilyen oknál fogva az endstate---> kérõdjel miért
+//std cout-al befagyott valamilyen oknÃ¡l fogva az endstate---> kÃ©rÃµdjel miÃ©rt
 
 void GameState::endState()
 {
 
-	//valami esetleg kiírni még megcsinálni a befejezés elõtt
+	//valami esetleg kiÃ­rni mÃ©g megcsinÃ¡lni a befejezÃ©s elÃµtt
 	//std::cout << "Ending gamestate4"<<"\n";
 
 }
